@@ -1,0 +1,72 @@
+# Ducts. Default values of thickness of duct according to Appendix K of SP 60.13330.2020
+Thickness by diameter:
+  # Mapping ducts diameters to thicknesses
+  # Key - maximum diameter
+  # Value - thickness in mm
+  # Thickness for all diameters higher than maximum will be calculated as for the maximum presented diameter
+  200: 0.5
+  450: 0.7
+  800: 0.9
+  1250: 1.0
+  1600: 1.2
+  2000: 1.4
+
+Thickness by width:
+  # Mapping ducts width to thicknesses
+  # Key - maximum width
+  # Value - thickness in mm
+  # Thickness for all width higher than maximum will be calculated as for the maximum presented width
+  250: 0.5
+  1000: 0.7
+  2000: 0.9
+
+# Densities of used materials
+Densities:
+  # Mapping densities names to kg/m3
+  # 'steel', 'insulation', 'water' are mandatory
+  steel: 7850
+  insulation: 150
+  water: 1000
+  polypropylene: 1000
+  copper: 2000
+
+
+# Pipes
+Pipes densities:
+  # Mapping pipes types to Density list.
+  # Key - any text in Type name.
+  # Value - key from Density list
+  # All unknown types will be expected steel
+  Steal: steel
+  Steel: steel
+  Электросвар: steel
+  Iron: steel
+  Cooper: copper
+  Copper: copper
+  PP-R: polypropylene
+  ПЭ: polypropylene
+  PE: polypropylene
+  ABN: polypropylene
+  Poly: polypropylene
+  PVC: polypropylene
+
+
+Pipes filling ratios:
+  # Mapping pipes types to filling ratios (how much filling is expected in a pipe).
+  # Key - any text in Type name.
+  # Value - ratio
+  # All unknown types will be expected as 1.0 (fully filled)
+  RC_P_Polyethylene: 0.5
+  RC_CastIron_PAM: 0.5
+  RC_PVC_Gravity_Chemkor_SN8: 0.5
+  Труба стальная электросварная: 0.5
+
+# Cable Trays
+Cable trays types:
+  # Mapping cable trays types to cable types
+  # Possible types: Ladder, Mesh, Perforated
+  # All unknown types will be expected as Perforated
+  Ladder: Ladder
+  Mesh: Mesh
+
+Cable trays filling ratio: 0.6
