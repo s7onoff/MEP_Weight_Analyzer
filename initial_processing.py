@@ -22,6 +22,8 @@ def ducts_frame_init(df):
 
 def pipes_frame_init(df):
     df['InsulationThickness_mm'] = first_element(df['Insulation thickness'])
+    df['D'] = diameter(df['Outside diameter'])
+    df['d'] = diameter(df['Inside diameter'])
     weight_methods.pipes_calc_thickness(df)
     weight_methods.pipes_calc_weight(df)
 
@@ -34,12 +36,12 @@ def cable_trays_frame_init(df):
 
 # Splitting size strings
 def first_element(ds):
-    return ds.str.split('xх*', expand=True)[0].str.rstrip('mм ').astype(float)
+    return ds.str.split('xх*', expand=True)[0].astype(str).str.replace(',', '.').str.rstrip('mм ').astype(float)
 
 
 def second_element(ds):
-    return ds.str.split('xх*', expand=True)[1].str.rstrip('mм ').astype(float)
+    return ds.str.split('xх*', expand=True)[1].astype(str).str.replace(',', '.').str.rstrip('mм ').astype(float)
 
 
 def diameter(ds):
-    return ds.str.lstrip('ø').str.rstrip('mм ').astype(float)
+    return ds.astype(str).str.replace(',', '.').str.lstrip('ø').str.rstrip('mм ').astype(float)

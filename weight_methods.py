@@ -15,9 +15,8 @@ def circular_ducts_calc_weight(df):
     df['SelfWeight_kg/m'] = (df['Thickness_mm'] / 1000
                              * df['D'] * math.pi / 1000
                              * ec.density['steel'])
-
+    df['InsulationDensity'] = df['Insulation Type'].map(ec.insulation_density)
     df['InsulationWeight_kg/m'] = insulation_weight_for_circular(df)
-
     df['Weight_kg/m'] = df['SelfWeight_kg/m'] + df['InsulationWeight_kg/m']
 
 
@@ -31,9 +30,10 @@ def rect_ducts_calc_weight(df):
     df['SelfWeight_kg/m'] = (df['Thickness_mm'] / 1000
                              * (df['A'] + df['B']) * 2 / 1000
                              * ec.density['steel'])
+    df['InsulationDensity'] = df['Insulation Type'].map(ec.insulation_density)
     df['InsulationWeight_kg/m'] = (df['InsulationThickness_mm'] / 1000
                                    * (df['A'] + df['B'] + df['InsulationThickness_mm'] * 2) * 2 / 1000
-                                   * ec.density['insulation'])
+                                   * df['InsulationDensity'])
     df['Weight_kg/m'] = df['SelfWeight_kg/m'] + df['InsulationWeight_kg/m']
 
 
@@ -41,9 +41,6 @@ def rect_ducts_calc_weight(df):
 
 
 def pipes_calc_thickness(df):
-    # Calculating thickness
-    df['D'] = df['Outside diameter'].str.rstrip('m ').astype(float)
-    df['d'] = df['Inside diameter'].str.rstrip('m ').astype(float)
     df['Thickness_mm'] = (df['D'] - df['d']) / 2.0
 
 
@@ -53,6 +50,7 @@ def pipes_calc_weight(df):
     df['SelfWeight_kg/m'] = (df['Thickness_mm'] / 1000
                              * df['D'] * math.pi / 1000
                              * df['MatDensity_kg/m3'])
+    df['InsulationDensity'] = df['Insulation Type'].map(ec.insulation_density)
     df['InsulationWeight_kg/m'] = insulation_weight_for_circular(df)
     df['Filling_ratio'] = df['Type name'].apply(
         lambda name: dicts_methods.find_text_inclusion_in_dict(name, ec.pipes_filling_ratio, 1.0))
@@ -72,13 +70,15 @@ def pipes_calc_weight(df):
 
 def cable_trays_calc_weight(df):
     df['TrayWeight_kg/m'] = ((df['Width']
-                             + df['Height'] * 2)
+                              + df['Height'] * 2)
                              * ec.density['steel']
+                             * 10 ** (-6)
                              )
     df['CableWeight_kg/m'] = (df['Width']
                               * df['Height']
                               * ec.cable_trays_filling_ratio
                               * ec.cables_average_density
+                              * 10 ** (-6)
                               )
     df['Weight_kg/m'] = df['CableWeight_kg/m'] + df['TrayWeight_kg/m']
 
@@ -92,5 +92,5 @@ def insulation_weight_for_circular(df):
                     - df['D'] ** 2
             )
             * (10 ** (-6))
-            * ec.density['insulation']
+            * df['InsulationDensity']
     )

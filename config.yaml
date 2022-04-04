@@ -1,3 +1,22 @@
+# Densities of used materials
+Densities:
+  # Mapping densities names to kg/m3
+  # 'steel', 'insulation', 'water' are mandatory
+  # OBM calculated using EXPERT layer in average thickness
+  # OBM calculate: [(]thickness*100 kg/m3 + 2 kg/m2 (EXPERT layer)]/thickness
+  zero: 0
+  steel: 7850
+  insulation: 150
+  water: 1000
+  polypropylene: 1000
+  copper: 2000
+  wool: 30
+  OBM5F: 500
+  OBM13F: 250
+  OBM40F: 150
+
+
+
 # Ducts. Default values of thickness of duct according to Appendix K of SP 60.13330.2020
 Thickness by diameter:
   # Mapping ducts diameters to thicknesses
@@ -20,15 +39,15 @@ Thickness by width:
   1000: 0.7
   2000: 0.9
 
-# Densities of used materials
-Densities:
-  # Mapping densities names to kg/m3
-  # 'steel', 'insulation', 'water' are mandatory
-  steel: 7850
-  insulation: 150
-  water: 1000
-  polypropylene: 1000
-  copper: 2000
+Insulation types:
+  None: zero
+  1: wool
+  2: wool
+  3: wool
+  4: wool
+  5: OBM5F
+  6: OBM13F
+  7: OBM40F
 
 
 # Pipes
@@ -50,17 +69,17 @@ Pipes densities:
   Poly: polypropylene
   PVC: polypropylene
 
-
 Pipes filling ratios:
   # Mapping pipes types to filling ratios (how much filling is expected in a pipe).
   # Key - any text in Type name.
   # Value - ratio
   # All unknown types will be expected as 1.0 (fully filled)
-  RC_P_Polyethylene: 0.5
+  Drenage: 0.5
   RC_CastIron_PAM: 0.5
   RC_PVC_Gravity_Chemkor_SN8: 0.5
-  Труба стальная электросварная: 0.5
+  Sanitary_Socket: 0.5
+
 
 # Cable Trays
-Cable trays filling ratio: 0.95
+Cable trays filling ratio: 0.65
 Cables average density: 3360

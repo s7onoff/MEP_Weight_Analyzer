@@ -14,3 +14,7 @@ for sheet_name in list(input_frame.keys()):
     elif str(sheet_name).casefold().__contains__('pipe'):
         pipes_df = input_frame[sheet_name]
         initial_processing.pipes_frame_init(pipes_df)
+
+sum_df = pd.concat([cables_df, pipes_df, rect_ducts_df, circular_ducts_df])
+sum_df['Weight_kg'] = sum_df['Length'] * sum_df['Weight_kg/m'] * 10 ** (-3)
+print(sum_df['Weight_kg'].sum())
