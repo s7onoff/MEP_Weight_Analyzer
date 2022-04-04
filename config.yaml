@@ -62,11 +62,5 @@ Pipes filling ratios:
   Труба стальная электросварная: 0.5
 
 # Cable Trays
-Cable trays types:
-  # Mapping cable trays types to cable types
-  # Possible types: Ladder, Mesh, Perforated
-  # All unknown types will be expected as Perforated
-  Ladder: Ladder
-  Mesh: Mesh
-
-Cable trays filling ratio: 0.6
+Cable trays filling ratio: 0.95
+Cables average density: 3360

@@ -70,6 +70,19 @@ def pipes_calc_weight(df):
 # --- Cable Trays ---
 
 
+def cable_trays_calc_weight(df):
+    df['TrayWeight_kg/m'] = ((df['Width']
+                             + df['Height'] * 2)
+                             * ec.density['steel']
+                             )
+    df['CableWeight_kg/m'] = (df['Width']
+                              * df['Height']
+                              * ec.cable_trays_filling_ratio
+                              * ec.cables_average_density
+                              )
+    df['Weight_kg/m'] = df['CableWeight_kg/m'] + df['TrayWeight_kg/m']
+
+
 # --- Additional methods
 def insulation_weight_for_circular(df):
     return (

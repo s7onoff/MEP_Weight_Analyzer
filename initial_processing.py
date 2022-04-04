@@ -2,18 +2,18 @@ import weight_methods
 
 
 def ducts_frame_init(df):
-    df['InsulationThickness_mm'] = df['Insulation thickness'].apply(lambda x: first_element(x))
+    df['InsulationThickness_mm'] = first_element(df['Insulation thickness'])
 
     # Circular ducts
     circular_ducts_df = df[df['Size'].str.contains('ø')].copy(deep=True)
-    circular_ducts_df['D'] = circular_ducts_df['Size'].apply(lambda size: diameter(size))
+    circular_ducts_df['D'] = diameter(circular_ducts_df['Size'])
     weight_methods.circular_ducts_calc_thickness(circular_ducts_df)
     weight_methods.circular_ducts_calc_weight(circular_ducts_df)
 
     # Rectangular ducts
     rect_ducts_df = df[~df['Size'].str.contains('ø')].copy(deep=True)
-    rect_ducts_df['A'] = rect_ducts_df['Size'].apply(lambda size: first_element(size))
-    rect_ducts_df['B'] = rect_ducts_df['Size'].apply(lambda size: second_element(size))
+    rect_ducts_df['A'] = first_element(rect_ducts_df['Size'])
+    rect_ducts_df['B'] = second_element(rect_ducts_df['Size'])
     weight_methods.rect_ducts_calc_thickness(rect_ducts_df)
     weight_methods.rect_ducts_calc_weight(rect_ducts_df)
 
@@ -21,25 +21,25 @@ def ducts_frame_init(df):
 
 
 def pipes_frame_init(df):
-    df['InsulationThickness_mm'] = df['Insulation thickness'].str.rstrip('mм ').astype(float)
+    df['InsulationThickness_mm'] = first_element(df['Insulation thickness'])
     weight_methods.pipes_calc_thickness(df)
     weight_methods.pipes_calc_weight(df)
 
 
 def cable_trays_frame_init(df):
-    df['Width'] = df['Size'].apply(lambda size: first_element(size))
-    df['Height'] = df['Size'].apply(lambda size: second_element(size))
-    # TODO: calculate cable weight
+    df['Width'] = first_element(df['Size'])
+    df['Height'] = second_element(df['Size'])
+    weight_methods.cable_trays_calc_weight(df)
 
 
 # Splitting size strings
-def first_element(size_string):
-    return size_string.str.split('xх*', expand=True)[0].str.rstrip('mм ').astype(int)
+def first_element(ds):
+    return ds.str.split('xх*', expand=True)[0].str.rstrip('mм ').astype(float)
 
 
-def second_element(size_string):
-    return size_string.str.split('xх*', expand=True)[1].str.rstrip('mм ').astype(int)
+def second_element(ds):
+    return ds.str.split('xх*', expand=True)[1].str.rstrip('mм ').astype(float)
 
 
-def diameter(size_string):
-    return size_string.str.lstrip('ø').rstrip('mм ').astype(int)
+def diameter(ds):
+    return ds.str.lstrip('ø').str.rstrip('mм ').astype(float)

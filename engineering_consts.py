@@ -20,6 +20,14 @@ def map_dict_with_yaml(yaml_name, default_dict, other_dict=None):
     return dictionary
 
 
+def map_value_with_yaml(yaml_name, default_value = None):
+    try:
+        value = regular_mapping(yaml_name)
+    except NameError:
+        value = default_value
+    return value
+
+
 def regular_mapping(yaml_name):
     return parsed_data[yaml_name]
 
@@ -53,14 +61,15 @@ pipes_filling_ratio_def = {'RC_P_Polyethylene': 0.5,
                            'RC_CastIron_PAM': 0.5,
                            'RC_PVC_Gravity_Chemkor_SN8': 0.5,
                            'Труба стальная электросварная': 0.5}
-cable_trays_type_def = {'Ladder': 'Ladder',
-                        'Mesh': 'Mesh'}
+
 
 density = map_dict_with_yaml('Densities', density_def)
 thickness_by_diameter = map_dict_with_yaml('Thickness by diameter', thickness_by_diameter_def)
 thickness_by_width = map_dict_with_yaml('Thickness by width', thickness_by_width_def)
 pipes_filling_ratio = map_dict_with_yaml('Pipes filling ratios', pipes_filling_ratio_def)
-cable_trays_type = map_dict_with_yaml('Cable trays types', cable_trays_type_def)
+cable_trays_filling_ratio = map_value_with_yaml('Cable trays filling ratio')
+cables_average_density = map_value_with_yaml('Cables average density')
+
 
 pipes_density_def = {'Steal': density['steel'],
                      'Steel': density['steel'],
